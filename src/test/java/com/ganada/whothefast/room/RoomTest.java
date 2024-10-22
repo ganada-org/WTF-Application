@@ -1,6 +1,8 @@
 package com.ganada.whothefast.room;
 
 import com.ganada.whothefast.domain.room.entity.Room;
+import com.ganada.whothefast.domain.room.service.CreateRoomService;
+import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,8 @@ public class RoomTest {
     @DisplayName("방 객체가 모든 속성이 존재한 상태로 생성되면 성공")
     public void create_room_with_required_fields() {
         // Given
+        CreateRoomService createRoomService = new CreateRoomServiceImpl();
+
         String title = "Test Room";
         int owner = 1;
         int userCount = 2;
@@ -25,7 +29,7 @@ public class RoomTest {
         int timeLimit = 60;
 
         // When
-        Room room = new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
 
         // Then
         assertNotNull(room); // room이 null이 아닌지 확인
