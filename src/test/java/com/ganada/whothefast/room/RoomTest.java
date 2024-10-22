@@ -1,13 +1,12 @@
 package com.ganada.whothefast.room;
 
+import com.ganada.whothefast.domain.room.entity.Room;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 public class RoomTest {
 
     @Test
