@@ -14,7 +14,7 @@ public class RoomTest {
 
     @Test
     @DisplayName("방 객체가 생성되면 성공")
-    public void createRoom() {
+    public void create_room() {
         // Given
 
         // When
@@ -26,7 +26,7 @@ public class RoomTest {
 
     @Test
     @DisplayName("방 객체가 모든 속성이 존재한 상태로 생성되면 성공")
-    public void createRoom_withRequiredFields() {
+    public void create_room_with_required_fields() {
         // Given
         String title = "Test Room";
         int owner = 1;
@@ -49,5 +49,4 @@ public class RoomTest {
         assertEquals(problemTags, room.getProblemTags()); // problemTags 값 확인
         assertEquals(timeLimit, room.getTimeLimit()); // timeLimit 값 확인
     }
-
 }
