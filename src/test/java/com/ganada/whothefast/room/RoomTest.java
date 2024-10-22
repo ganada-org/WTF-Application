@@ -60,7 +60,7 @@ public class RoomTest {
         Room room = new Room(password);
 
         // Then
-        assertNotNull(room);
-        assertNull(room.getPassword());
+        assertNotNull(room); // room이 null이 아닌지 확인
+        assertNull(room.getPassword()); // password가 null 인지 확인
     }
 }

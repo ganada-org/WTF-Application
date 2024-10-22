@@ -32,4 +32,8 @@ public class Room {
         this.problemTags = problemTags;
         this.timeLimit = timeLimit;
     }
+
+    public Room(String password) {
+        this.password = password;
+    }
 }
