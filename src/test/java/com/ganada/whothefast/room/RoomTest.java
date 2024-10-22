@@ -13,18 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class RoomTest {
 
     @Test
-    @DisplayName("방 객체가 생성되면 성공")
-    public void create_room() {
-        // Given
-
-        // When
-        Room room = new Room();
-
-        // Then
-        assertNotNull(room); // room이 null이 아닌지 확인
-    }
-
-    @Test
     @DisplayName("방 객체가 모든 속성이 존재한 상태로 생성되면 성공")
     public void create_room_with_required_fields() {
         // Given
