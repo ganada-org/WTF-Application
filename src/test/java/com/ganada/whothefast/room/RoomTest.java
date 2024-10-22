@@ -49,4 +49,18 @@ public class RoomTest {
         assertEquals(problemTags, room.getProblemTags()); // problemTags 값 확인
         assertEquals(timeLimit, room.getTimeLimit()); // timeLimit 값 확인
     }
+
+    @Test
+    @DisplayName("방이 비밀번호 없이 생성되면 성공")
+    public void create_room_without_password() {
+        // Given
+        String password = null;
+
+        // When
+        Room room = new Room(password);
+
+        // Then
+        assertNotNull(room);
+        assertNull(room.getPassword());
+    }
 }
