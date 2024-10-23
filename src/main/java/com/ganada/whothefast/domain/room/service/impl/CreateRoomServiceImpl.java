@@ -17,6 +17,10 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("비밀번호는 숫자로 이루어져 있어야 합니다.");
         }
 
+        if (userCount != 2 && userCount != 4) {
+            throw new IllegalArgumentException("최대 인원 수는 2명 또는 4명이어야 합니다.");
+        }
+
         return new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
     }
 }
