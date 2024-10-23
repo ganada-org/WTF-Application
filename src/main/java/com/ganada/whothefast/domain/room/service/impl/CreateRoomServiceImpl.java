@@ -23,6 +23,10 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("최대 인원 수는 2명 또는 4명이어야 합니다.");
         }
 
+        if (problemDif < 1 || problemDif > 25) {
+            throw new IllegalArgumentException("존재하지 않는 난이도 입니다.");
+        }
+
         return new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
     }
 }
