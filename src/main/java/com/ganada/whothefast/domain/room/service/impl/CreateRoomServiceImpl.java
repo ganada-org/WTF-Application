@@ -39,6 +39,14 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("중복된 태그는 선택 할 수 없습니다.");
         }
 
+        if (timeLimit < 10 || timeLimit > 120) {
+            throw new IllegalArgumentException("제한시간은 10분 부터 120분사이로 설정해야 합니다.");
+        }
+
+        if (timeLimit % 10 != 0) {
+            throw new IllegalArgumentException("제한시간은 10분 단위로 설정해야 합니다.");
+        }
+
         return new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
     }
 }
