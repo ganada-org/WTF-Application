@@ -27,6 +27,14 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("존재하지 않는 난이도 입니다.");
         }
 
+        if (problemTags.size() > 5) {
+            throw new IllegalArgumentException("태그는 최대 5개까지 선택해야 합니다.");
+        }
+
+        if (problemTags.get(0).equals(problemTags.get(1))) {
+            throw new IllegalArgumentException("중복된 태그는 선택 할 수 없습니다.");
+        }
+
         return new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
     }
 }
