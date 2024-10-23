@@ -88,4 +88,24 @@ public class RoomTest {
         assertEquals("비밀번호는 4자리여야 합니다.", exception1.getMessage());
         assertEquals("비밀번호는 숫자로 이루어져 있어야 합니다.", exception2.getMessage());
     }
+
+    @Test
+    @DisplayName("최대 인원 수가 유효하지 않은 방 생성 시 예외 발생")
+    public void create_room_user_count_validation() {
+        // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 5;
+        int problemDif = 1;
+        String password = "1234";
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
+
+        // When & Then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit)
+        );
+
+        assertEquals("최대 인원 수는 2명 또는 4명이어야 합니다.", exception.getMessage());
+    }
 }
