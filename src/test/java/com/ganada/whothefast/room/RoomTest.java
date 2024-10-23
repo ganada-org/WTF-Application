@@ -52,10 +52,16 @@ public class RoomTest {
     @DisplayName("방이 비밀번호 없이 생성되면 성공")
     public void create_room_without_password() {
         // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
         String password = null;
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
 
         // When
-        Room room = new Room(password);
+        Room room = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
 
         // Then
         assertNotNull(room); // room이 null이 아닌지 확인
