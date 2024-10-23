@@ -155,4 +155,31 @@ public class RoomTest {
         assertEquals("태그는 최대 5개까지 선택해야 합니다.", exception1.getMessage());
         assertEquals("중복된 태그는 선택 할 수 없습니다.", exception2.getMessage());
     }
+
+    @Test
+    @DisplayName("시간 제한이 유효하지 않은 방 생성 시 예외 발생")
+    public void create_room_time_limit_validation() {
+        // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
+        String password = "1234";
+        List<String> problemTags = List.of("tag1", "tag2");
+
+        int timeLimit1 = 130;
+        int timeLimit2 = 61;
+
+        // When & Then
+        IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit1)
+        );
+
+        IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit2)
+        );
+
+        assertEquals("제한시간은 10분 부터 120분사이로 설정해야 합니다.", exception1.getMessage());
+        assertEquals("제한시간은 10분 단위로 설정해야 합니다.", exception2.getMessage());
+    }
 }
