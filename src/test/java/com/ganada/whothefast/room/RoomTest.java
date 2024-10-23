@@ -128,4 +128,31 @@ public class RoomTest {
 
         assertEquals("존재하지 않는 난이도 입니다.", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("문제 태그 수가 유효하지 않은 방 생성 시 예외 발생")
+    public void create_room_problem_tags_validation() {
+        // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
+        String password = "1234";
+        int timeLimit = 60;
+
+        List<String> problemTags1 = List.of("tag1", "tag2", "tag3", "tag4", "tag5", "tag6");
+        List<String> problemTags2 = List.of("tag1", "tag1");
+
+        // When && Then
+        IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags1, timeLimit)
+        );
+
+        IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags2, timeLimit)
+        );
+
+        assertEquals("태그는 최대 5개까지 선택해야 합니다.", exception1.getMessage());
+        assertEquals("중복된 태그는 선택 할 수 없습니다.", exception2.getMessage());
+    }
 }
