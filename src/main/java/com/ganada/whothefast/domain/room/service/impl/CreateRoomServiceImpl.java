@@ -3,7 +3,9 @@ package com.ganada.whothefast.domain.room.service.impl;
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CreateRoomServiceImpl implements CreateRoomService {
 
@@ -31,7 +33,9 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("태그는 최대 5개까지 선택해야 합니다.");
         }
 
-        if (problemTags.get(0).equals(problemTags.get(1))) {
+        Set<String> set = new HashSet<>(problemTags);
+
+        if (problemTags.size() != set.size()) {
             throw new IllegalArgumentException("중복된 태그는 선택 할 수 없습니다.");
         }
 
