@@ -21,8 +21,6 @@ public class Room {
 
     private int timeLimit;
 
-    public Room() { }
-
     public Room(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit) {
         this.title = title;
         this.owner = owner;
@@ -31,9 +29,5 @@ public class Room {
         this.password = password;
         this.problemTags = problemTags;
         this.timeLimit = timeLimit;
-    }
-
-    public Room(String password) {
-        this.password = password;
     }
 }
