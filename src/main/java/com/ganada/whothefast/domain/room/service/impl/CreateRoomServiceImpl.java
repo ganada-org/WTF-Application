@@ -11,14 +11,16 @@ public class CreateRoomServiceImpl implements CreateRoomService {
 
     @Override
     public Room execute(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit) {
-        if (password.length() > 4) {
-            throw new IllegalArgumentException("비밀번호는 4자리여야 합니다.");
-        }
+        if (password != null) {
+            if (password.length() > 4) {
+                throw new IllegalArgumentException("비밀번호는 4자리여야 합니다.");
+            }
 
-        try {
-            Integer.parseInt(password);
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("비밀번호는 숫자로 이루어져 있어야 합니다.");
+            try {
+                Integer.parseInt(password);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("비밀번호는 숫자로 이루어져 있어야 합니다.");
+            }
         }
 
         if (userCount != 2 && userCount != 4) {
