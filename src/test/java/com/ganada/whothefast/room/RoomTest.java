@@ -108,4 +108,24 @@ public class RoomTest {
 
         assertEquals("최대 인원 수는 2명 또는 4명이어야 합니다.", exception.getMessage());
     }
+
+    @Test
+    @DisplayName("문제 난이도가 유효하지 않은 방 생성 시 예외 발생")
+    public void create_room_problem_dif_validation() {
+        // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 0;
+        String password = "1234";
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
+
+        // When && Then
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit)
+        );
+
+        assertEquals("존재하지 않는 난이도 입니다.", exception.getMessage());
+    }
 }
