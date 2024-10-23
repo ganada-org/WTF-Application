@@ -3,6 +3,7 @@ package com.ganada.whothefast.room;
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,12 +15,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class RoomTest {
 
+    private CreateRoomService createRoomService;
+
+    @BeforeEach
+    public void setUp() {
+        createRoomService = new CreateRoomServiceImpl();
+    }
+
     @Test
     @DisplayName("방 객체가 모든 속성이 존재한 상태로 생성되면 성공")
     public void create_room_with_required_fields() {
         // Given
-        CreateRoomService createRoomService = new CreateRoomServiceImpl();
-
         String title = "Test Room";
         int owner = 1;
         int userCount = 2;
@@ -60,8 +66,6 @@ public class RoomTest {
     @DisplayName("비밀번호 형식을 지키지 않은 방 생성 시 예외 발생")
     public void create_room_password_validation() {
         // Given
-        CreateRoomService createRoomService = new CreateRoomServiceImpl();
-
         String title = "Test Room";
         int owner = 1;
         int userCount = 2;
