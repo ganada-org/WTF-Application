@@ -55,4 +55,33 @@ public class RoomTest {
         assertNotNull(room); // room이 null이 아닌지 확인
         assertNull(room.getPassword()); // password가 null 인지 확인
     }
+
+    @Test
+    @DisplayName("비밀번호 형식을 지키지 않은 방 생성 시 예외 발생")
+    public void create_room_password_validation() {
+        // Given
+        CreateRoomService createRoomService = new CreateRoomServiceImpl();
+
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
+
+        String password1 = "12345";
+        String password2 = "abcd";
+
+        // When & Then
+        IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password1, problemTags, timeLimit)
+        );
+
+        IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title, owner, userCount, problemDif, password2, problemTags, timeLimit)
+        );
+
+        assertEquals("비밀번호는 4자리여야 합니다.", exception1.getMessage());
+        assertEquals("비밀번호는 숫자로 이루어져 있어야 합니다.", exception2.getMessage());
+    }
 }
