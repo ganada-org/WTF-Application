@@ -7,6 +7,8 @@ import java.util.List;
 @Getter
 public class Room {
 
+    private int id;
+
     private String title;
 
     private int owner;
@@ -22,6 +24,7 @@ public class Room {
     private int timeLimit;
 
     public Room(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit) {
+        this.id = 1;
         this.title = title;
         this.owner = owner;
         this.userCount = userCount;
