@@ -207,4 +207,25 @@ public class RoomTest {
         // Then
         assertEquals(1, room.getId());
     }
+
+    @Test
+    @DisplayName("방이 생성될 때 마다 방ID 값이 증가하면 성공")
+    public void room_id_auto_increment() {
+        // Given
+        String title = "Test Room";
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
+        String password = "1234";
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
+
+        // When
+        Room room1 = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room2 = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+
+        // Then
+        assertEquals(1, room1.getId());
+        assertEquals(2, room2.getId());
+    }
 }
