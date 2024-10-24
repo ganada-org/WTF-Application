@@ -230,4 +230,31 @@ public class CreateRoomTest {
         assertEquals(1, room1.getId());
         assertEquals(2, room2.getId());
     }
+
+    @Test
+    @DisplayName("방 제목이 null 또는 공백인 경우 실패")
+    public void room_title_validation() {
+        // Given
+        int owner = 1;
+        int userCount = 2;
+        int problemDif = 1;
+        String password = "1234";
+        List<String> problemTags = List.of("tag1", "tag2");
+        int timeLimit = 60;
+
+        String title1 = null;
+        String title2 = "";
+
+        // When & Then
+        IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title1, owner, userCount, problemDif, password, problemTags, timeLimit)
+        );
+
+        IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
+                createRoomService.execute(title2, owner, userCount, problemDif, password, problemTags, timeLimit)
+        );
+
+        assertEquals("방 제목이 비어있습니다.", exception1.getMessage());
+        assertEquals("방 제목이 비어있습니다.", exception2.getMessage());
+    }
 }
