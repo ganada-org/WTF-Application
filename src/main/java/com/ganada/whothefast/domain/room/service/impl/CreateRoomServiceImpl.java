@@ -2,11 +2,13 @@ package com.ganada.whothefast.domain.room.service.impl;
 
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
+import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Service
 public class CreateRoomServiceImpl implements CreateRoomService {
 
     @Override
