@@ -1,5 +1,6 @@
 package com.ganada.whothefast.domain.room.entity;
 
+import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import lombok.Getter;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class Room {
     private int timeLimit;
 
     public Room(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit) {
-        this.id = 1;
+        this.id = RoomIdCache.getId();
         this.title = title;
         this.owner = owner;
         this.userCount = userCount;

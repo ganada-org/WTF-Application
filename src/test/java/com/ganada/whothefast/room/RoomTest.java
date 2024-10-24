@@ -1,5 +1,6 @@
 package com.ganada.whothefast.room;
 
+import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
@@ -20,6 +21,7 @@ public class RoomTest {
     @BeforeEach
     public void setUp() {
         createRoomService = new CreateRoomServiceImpl();
+        RoomIdCache.setId(1);
     }
 
     @Test
