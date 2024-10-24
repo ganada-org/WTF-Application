@@ -51,6 +51,10 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("제한시간은 10분 단위로 설정해야 합니다.");
         }
 
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("방 제목이 비어있습니다.");
+        }
+
         return new Room(title, owner, userCount, problemDif, password, problemTags, timeLimit);
     }
 }
