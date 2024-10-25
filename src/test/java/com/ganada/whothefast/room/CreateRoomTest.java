@@ -2,6 +2,7 @@ package com.ganada.whothefast.room;
 
 import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
+import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,69 +29,83 @@ public class CreateRoomTest {
     @DisplayName("방 객체가 모든 속성이 존재한 상태로 생성되면 성공")
     public void create_room_with_required_fields() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1; // 브5 = 1, 브4 = 2, 루1 = 25
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When
-        Room room = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room = createRoomService.execute(request);
 
         // Then
-        assertNotNull(room); // room이 null이 아닌지 확인
-        assertEquals(title, room.getTitle()); // title 값 확인
-        assertEquals(owner, room.getOwner()); // owner 값 확인
-        assertEquals(userCount, room.getUserCount()); // userCount 값 확인
-        assertEquals(problemDif, room.getProblemDif()); // problemDif 값 확인
-        assertEquals(password, room.getPassword()); // password 값 확인
-        assertEquals(problemTags, room.getProblemTags()); // problemTags 값 확인
-        assertEquals(timeLimit, room.getTimeLimit()); // timeLimit 값 확인
+        assertNotNull(room);
+        assertEquals("Test Room", room.getTitle());
+        assertEquals(1, room.getOwner());
+        assertEquals(2, room.getUserCount());
+        assertEquals(1, room.getProblemDif());
+        assertEquals("1234", room.getPassword());
+        assertEquals(List.of("tag1", "tag2"), room.getProblemTags());
+        assertEquals(60, room.getTimeLimit());
     }
 
     @Test
     @DisplayName("방이 비밀번호 없이 생성되면 성공")
     public void create_room_without_password() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = null;
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password(null)
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When
-        Room room = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room = createRoomService.execute(request);
 
         // Then
-        assertNotNull(room); // room이 null이 아닌지 확인
-        assertNull(room.getPassword()); // password가 null 인지 확인
+        assertNotNull(room);
+        assertNull(room.getPassword());
     }
 
     @Test
     @DisplayName("비밀번호 형식을 지키지 않은 방 생성 시 예외 발생")
     public void create_room_password_validation() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request1 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("12345")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
-        String password1 = "12345";
-        String password2 = "abcd";
+        CreateRoomRequest request2 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("abcd")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When & Then
         IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password1, problemTags, timeLimit)
+                createRoomService.execute(request1)
         );
 
         IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password2, problemTags, timeLimit)
+                createRoomService.execute(request2)
         );
 
         assertEquals("비밀번호는 4자리여야 합니다.", exception1.getMessage());
@@ -101,17 +116,19 @@ public class CreateRoomTest {
     @DisplayName("최대 인원 수가 유효하지 않은 방 생성 시 예외 발생")
     public void create_room_user_count_validation() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 5;
-        int problemDif = 1;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(5)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When & Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit)
+                createRoomService.execute(request)
         );
 
         assertEquals("최대 인원 수는 2명 또는 4명이어야 합니다.", exception.getMessage());
@@ -121,17 +138,19 @@ public class CreateRoomTest {
     @DisplayName("문제 난이도가 유효하지 않은 방 생성 시 예외 발생")
     public void create_room_problem_dif_validation() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 0;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(0)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When && Then
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit)
+                createRoomService.execute(request)
         );
 
         assertEquals("존재하지 않는 난이도 입니다.", exception.getMessage());
@@ -141,23 +160,33 @@ public class CreateRoomTest {
     @DisplayName("문제 태그 수가 유효하지 않은 방 생성 시 예외 발생")
     public void create_room_problem_tags_validation() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = "1234";
-        int timeLimit = 60;
+        CreateRoomRequest request1 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2", "tag3", "tag4", "tag5", "tag6"))
+                .timeLimit(60)
+                .build();
 
-        List<String> problemTags1 = List.of("tag1", "tag2", "tag3", "tag4", "tag5", "tag6");
-        List<String> problemTags2 = List.of("tag1", "tag1");
+        CreateRoomRequest request2 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag1"))
+                .timeLimit(60)
+                .build();
 
         // When && Then
         IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags1, timeLimit)
+                createRoomService.execute(request1)
         );
 
         IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags2, timeLimit)
+                createRoomService.execute(request2)
         );
 
         assertEquals("태그는 최대 5개까지 선택해야 합니다.", exception1.getMessage());
@@ -168,23 +197,33 @@ public class CreateRoomTest {
     @DisplayName("시간 제한이 유효하지 않은 방 생성 시 예외 발생")
     public void create_room_time_limit_validation() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
+        CreateRoomRequest request1 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(130)
+                .build();
 
-        int timeLimit1 = 130;
-        int timeLimit2 = 61;
+        CreateRoomRequest request2 = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(61)
+                .build();
 
         // When & Then
         IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit1)
+                createRoomService.execute(request1)
         );
 
         IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit2)
+                createRoomService.execute(request2)
         );
 
         assertEquals("제한시간은 10분 부터 120분사이로 설정해야 합니다.", exception1.getMessage());
@@ -195,16 +234,18 @@ public class CreateRoomTest {
     @DisplayName("방 생성 시 방ID 값이 자동으로 등록되면 성공")
     public void room_id_automatic_registration() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When
-        Room room = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room = createRoomService.execute(request);
 
         // Then
         assertEquals(1, room.getId());
@@ -214,17 +255,19 @@ public class CreateRoomTest {
     @DisplayName("방이 생성될 때 마다 방ID 값이 증가하면 성공")
     public void room_id_auto_increment() {
         // Given
-        String title = "Test Room";
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request = CreateRoomRequest.builder()
+                .title("Test Room")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When
-        Room room1 = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
-        Room room2 = createRoomService.execute(title, owner, userCount, problemDif, password, problemTags, timeLimit);
+        Room room1 = createRoomService.execute(request);
+        Room room2 = createRoomService.execute(request);
 
         // Then
         assertEquals(1, room1.getId());
@@ -235,23 +278,33 @@ public class CreateRoomTest {
     @DisplayName("방 제목이 null 또는 공백인 경우 실패")
     public void room_title_validation() {
         // Given
-        int owner = 1;
-        int userCount = 2;
-        int problemDif = 1;
-        String password = "1234";
-        List<String> problemTags = List.of("tag1", "tag2");
-        int timeLimit = 60;
+        CreateRoomRequest request1 = CreateRoomRequest.builder()
+                .title(null)
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
-        String title1 = null;
-        String title2 = "";
+        CreateRoomRequest request2 = CreateRoomRequest.builder()
+                .title(" ")
+                .owner(1)
+                .userCount(2)
+                .problemDif(1)
+                .password("1234")
+                .problemTags(List.of("tag1", "tag2"))
+                .timeLimit(60)
+                .build();
 
         // When & Then
         IllegalArgumentException exception1 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title1, owner, userCount, problemDif, password, problemTags, timeLimit)
+                createRoomService.execute(request1)
         );
 
         IllegalArgumentException exception2 = assertThrows(IllegalArgumentException.class, () ->
-                createRoomService.execute(title2, owner, userCount, problemDif, password, problemTags, timeLimit)
+                createRoomService.execute(request2)
         );
 
         assertEquals("방 제목이 비어있습니다.", exception1.getMessage());

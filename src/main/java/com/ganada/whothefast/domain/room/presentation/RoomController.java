@@ -19,16 +19,7 @@ public class RoomController {
 
     @PostMapping("/create")
     public ResponseEntity<Void> createRoom(@RequestBody CreateRoomRequest request) {
-        createRoomService.execute(
-                request.getTitle(),
-                request.getOwner(),
-                request.getUserCount(),
-                request.getProblemDif(),
-                request.getPassword(),
-                request.getProblemTags(),
-                request.getTimeLimit()
-        );
-
+        createRoomService.execute(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }

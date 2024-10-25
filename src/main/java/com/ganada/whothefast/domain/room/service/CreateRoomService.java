@@ -1,10 +1,9 @@
 package com.ganada.whothefast.domain.room.service;
 
 import com.ganada.whothefast.domain.room.entity.Room;
-
-import java.util.List;
+import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 
 public interface CreateRoomService {
 
-    Room execute(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit);
+    Room execute(CreateRoomRequest request);
 }
