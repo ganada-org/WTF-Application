@@ -1,5 +1,6 @@
 package com.ganada.whothefast.domain.room.service.impl;
 
+import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
@@ -55,14 +56,16 @@ public class CreateRoomServiceImpl implements CreateRoomService {
             throw new IllegalArgumentException("방 제목이 비어있습니다.");
         }
 
-        return new Room(request.getTitle(),
-                request.getOwner(),
-                request.getUserCount(),
-                request.getProblemDif(),
-                request.getPassword(),
-                request.getProblemTags(),
-                request.getTimeLimit(),
-                "WAITING"
-        );
+        return Room.builder()
+                .id(RoomIdCache.getId())
+                .title(request.getTitle())
+                .owner(request.getOwner())
+                .userCount(request.getUserCount())
+                .problemDif(request.getProblemDif())
+                .password(request.getPassword())
+                .problemTags(request.getProblemTags())
+                .timeLimit(request.getTimeLimit())
+                .status("WAITING")
+                .build();
     }
 }
