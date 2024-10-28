@@ -62,6 +62,7 @@ public class CreateRoomTest {
         assertEquals("1234", room.getPassword());
         assertEquals(List.of("tag1", "tag2"), room.getProblemTags());
         assertEquals(60, room.getTimeLimit());
+        assertEquals("WAITING", room.getStatus());
     }
 
     @Test
