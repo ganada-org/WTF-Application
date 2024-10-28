@@ -61,6 +61,8 @@ public class CreateRoomServiceImpl implements CreateRoomService {
                 request.getProblemDif(),
                 request.getPassword(),
                 request.getProblemTags(),
-                request.getTimeLimit());
+                request.getTimeLimit(),
+                "WAITING"
+        );
     }
 }

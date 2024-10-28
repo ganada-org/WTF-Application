@@ -24,7 +24,9 @@ public class Room {
 
     private int timeLimit;
 
-    public Room(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit) {
+    private String status;
+
+    public Room(String title, int owner, int userCount, int problemDif, String password, List<String> problemTags, int timeLimit, String status) {
         this.id = RoomIdCache.getId();
         this.title = title;
         this.owner = owner;
@@ -33,5 +35,6 @@ public class Room {
         this.password = password;
         this.problemTags = problemTags;
         this.timeLimit = timeLimit;
+        this.status = status;
     }
 }
