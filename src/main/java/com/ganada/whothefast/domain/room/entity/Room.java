@@ -27,4 +27,8 @@ public class Room {
     private int timeLimit;
 
     private RoomStatus status;
+
+    public void setStatus(RoomStatus status) {
+        this.status = status;
+    }
 }
