@@ -15,14 +15,8 @@ public class CreateRoomServiceImpl implements CreateRoomService {
     @Override
     public Room execute(CreateRoomRequest request) {
         if (request.getPassword() != null) {
-            if (request.getPassword().length() > 4) {
-                throw new IllegalArgumentException("비밀번호는 4자리여야 합니다.");
-            }
-
-            try {
-                Integer.parseInt(request.getPassword());
-            } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("비밀번호는 숫자로 이루어져 있어야 합니다.");
+            if (request.getPassword().length() != 4 || !request.getPassword().chars().allMatch(Character::isDigit)) {
+                throw new IllegalArgumentException("비밀번호는 4자리의 숫자여야 합니다.");
             }
         }
 
