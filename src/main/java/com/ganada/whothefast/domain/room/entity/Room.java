@@ -1,5 +1,6 @@
 package com.ganada.whothefast.domain.room.entity;
 
+import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -25,5 +26,5 @@ public class Room {
 
     private int timeLimit;
 
-    private String status;
+    private RoomStatus status;
 }

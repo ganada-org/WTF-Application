@@ -2,6 +2,7 @@ package com.ganada.whothefast.domain.room.service.impl;
 
 import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
+import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class CreateRoomServiceImpl implements CreateRoomService {
                 .password(request.getPassword())
                 .problemTags(request.getProblemTags())
                 .timeLimit(request.getTimeLimit())
-                .status("WAITING")
+                .status(RoomStatus.WAITING)
                 .build();
     }
 

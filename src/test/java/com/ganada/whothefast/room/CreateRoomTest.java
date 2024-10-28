@@ -2,6 +2,7 @@ package com.ganada.whothefast.room;
 
 import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
+import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
@@ -62,7 +63,7 @@ public class CreateRoomTest {
         assertEquals("1234", room.getPassword());
         assertEquals(List.of("tag1", "tag2"), room.getProblemTags());
         assertEquals(60, room.getTimeLimit());
-        assertEquals("WAITING", room.getStatus());
+        assertEquals(RoomStatus.WAITING, room.getStatus());
     }
 
     @Test
