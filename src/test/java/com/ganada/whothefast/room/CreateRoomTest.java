@@ -87,8 +87,8 @@ public class CreateRoomTest {
         CreateRoomRequest request2 = createRoomRequest("Test Room", 1, 2, 1, "abcd", List.of("tag1", "tag2"), 60);
 
         // When & Then
-        assertThrowsWithMessage(request1, "비밀번호는 4자리여야 합니다.");
-        assertThrowsWithMessage(request2, "비밀번호는 숫자로 이루어져 있어야 합니다.");
+        assertThrowsWithMessage(request1, "비밀번호는 4자리의 숫자여야 합니다.");
+        assertThrowsWithMessage(request2, "비밀번호는 4자리의 숫자여야 합니다.");
     }
 
     @Test
