@@ -7,48 +7,14 @@ import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class CreateRoomServiceImpl implements CreateRoomService {
 
     @Override
     public Room execute(CreateRoomRequest request) {
-        if (request.getPassword() != null) {
-            if (request.getPassword().length() != 4 || !request.getPassword().chars().allMatch(Character::isDigit)) {
-                throw new IllegalArgumentException("비밀번호는 4자리의 숫자여야 합니다.");
-            }
-        }
-
-        if (request.getUserCount() != 2 && request.getUserCount() != 4) {
-            throw new IllegalArgumentException("최대 인원 수는 2명 또는 4명이어야 합니다.");
-        }
-
-        if (request.getProblemDif() < 1 || request.getProblemDif() > 25) {
-            throw new IllegalArgumentException("존재하지 않는 난이도 입니다.");
-        }
-
-        if (request.getProblemTags().size() > 5) {
-            throw new IllegalArgumentException("태그는 최대 5개까지 선택해야 합니다.");
-        }
-
-        Set<String> set = new HashSet<>(request.getProblemTags());
-
-        if (request.getProblemTags().size() != set.size()) {
-            throw new IllegalArgumentException("중복된 태그는 선택 할 수 없습니다.");
-        }
-
-        if (request.getTimeLimit() < 10 || request.getTimeLimit() > 120) {
-            throw new IllegalArgumentException("제한시간은 10분 부터 120분사이로 설정해야 합니다.");
-        }
-
-        if (request.getTimeLimit() % 10 != 0) {
-            throw new IllegalArgumentException("제한시간은 10분 단위로 설정해야 합니다.");
-        }
-
-        if (request.getTitle() == null || request.getTitle().isBlank()) {
-            throw new IllegalArgumentException("방 제목이 비어있습니다.");
-        }
+        validateRequest(request);
 
         return Room.builder()
                 .id(RoomIdCache.getId())
@@ -61,5 +27,57 @@ public class CreateRoomServiceImpl implements CreateRoomService {
                 .timeLimit(request.getTimeLimit())
                 .status("WAITING")
                 .build();
+    }
+
+    private void validateRequest(CreateRoomRequest request) {
+        validatePassword(request.getPassword());
+        validateUserCount(request.getUserCount());
+        validateProblemDifficulty(request.getProblemDif());
+        validateProblemTags(request.getProblemTags());
+        validateTimeLimit(request.getTimeLimit());
+        validateTitle(request.getTitle());
+    }
+
+    private void validatePassword(String password) {
+        if (password != null && (password.length() != 4 || !password.chars().allMatch(Character::isDigit))) {
+            throw new IllegalArgumentException("비밀번호는 4자리의 숫자여야 합니다.");
+        }
+    }
+
+    private void validateUserCount(int userCount) {
+        if (userCount != 2 && userCount != 4) {
+            throw new IllegalArgumentException("최대 인원 수는 2명 또는 4명이어야 합니다.");
+        }
+    }
+
+    private void validateProblemDifficulty(int problemDif) {
+        if (problemDif < 1 || problemDif > 25) {
+            throw new IllegalArgumentException("존재하지 않는 난이도 입니다.");
+        }
+    }
+
+    private void validateProblemTags(List<String> problemTags) {
+        if (problemTags.size() > 5) {
+            throw new IllegalArgumentException("태그는 최대 5개까지 선택해야 합니다.");
+        }
+        if (problemTags.size() != new HashSet<>(problemTags).size()) {
+            throw new IllegalArgumentException("중복된 태그는 선택 할 수 없습니다.");
+        }
+    }
+
+    private void validateTimeLimit(int timeLimit) {
+        if (timeLimit < 10 || timeLimit > 120) {
+            throw new IllegalArgumentException("제한시간은 10분 부터 120분사이로 설정해야 합니다.");
+        }
+
+        if (timeLimit % 10 != 0) {
+            throw new IllegalArgumentException("제한시간은 10분 단위로 설정해야 합니다.");
+        }
+    }
+
+    private void validateTitle(String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("방 제목이 비어있습니다.");
+        }
     }
 }
