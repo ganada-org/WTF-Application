@@ -5,7 +5,9 @@ import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
+import com.ganada.whothefast.domain.room.service.RoomCacheService;
 import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
+import com.ganada.whothefast.domain.room.service.impl.RoomCacheServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,9 +22,12 @@ public class CreateRoomTest {
 
     private CreateRoomService createRoomService;
 
+    private RoomCacheService roomCacheService;
+
     @BeforeEach
     public void setUp() {
-        createRoomService = new CreateRoomServiceImpl();
+        roomCacheService = new RoomCacheServiceImpl();
+        createRoomService = new CreateRoomServiceImpl(roomCacheService);
         RoomIdCache.setId(1);
     }
 

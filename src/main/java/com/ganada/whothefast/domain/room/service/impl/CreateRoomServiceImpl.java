@@ -5,19 +5,24 @@ import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
+import com.ganada.whothefast.domain.room.service.RoomCacheService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CreateRoomServiceImpl implements CreateRoomService {
+
+    private final RoomCacheService roomCacheService;
 
     @Override
     public Room execute(CreateRoomRequest request) {
         validateRequest(request);
 
-        return Room.builder()
+        Room room = Room.builder()
                 .id(RoomIdCache.getId())
                 .title(request.getTitle())
                 .owner(request.getOwner())
@@ -28,6 +33,9 @@ public class CreateRoomServiceImpl implements CreateRoomService {
                 .timeLimit(request.getTimeLimit())
                 .status(RoomStatus.WAITING)
                 .build();
+
+        roomCacheService.saveRoom(room);
+        return room;
     }
 
     private void validateRequest(CreateRoomRequest request) {
