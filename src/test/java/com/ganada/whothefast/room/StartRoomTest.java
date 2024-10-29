@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StartRoomTest {
 
     @Test
-    @DisplayName("방 시작시 status 값이 START 로 바뀌면 성공")
+    @DisplayName("방 status 값이 START 로 바뀌면 성공")
     public void room_start() {
         // Given
         Room room = Room.builder()
