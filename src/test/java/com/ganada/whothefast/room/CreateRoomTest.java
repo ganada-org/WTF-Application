@@ -81,6 +81,21 @@ public class CreateRoomTest {
     }
 
     @Test
+    @DisplayName("방 생성 시 캐시에 저장되면 성공")
+    public void create_room_and_store_in_cache() {
+        // Given
+        CreateRoomRequest request = createRoomRequest("Test Room", 1, 2, 1, "1234", List.of("tag1", "tag2"), 60);
+
+        // When
+        Room room = createRoomService.execute(request);
+
+        // Then
+        Room cacheRoom = roomCacheService.findRoomById(room.getId());
+        assertNotNull(cacheRoom);
+        assertEquals(room.getId(), cacheRoom.getId());
+    }
+
+    @Test
     @DisplayName("비밀번호 형식을 지키지 않은 방 생성 시 예외 발생")
     public void create_room_password_validation() {
         // Given
