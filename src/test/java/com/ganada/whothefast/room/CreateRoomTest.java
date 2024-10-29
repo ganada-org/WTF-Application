@@ -6,11 +6,10 @@ import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
 import com.ganada.whothefast.domain.room.service.RoomCacheService;
-import com.ganada.whothefast.domain.room.service.impl.CreateRoomServiceImpl;
-import com.ganada.whothefast.domain.room.service.impl.RoomCacheServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -20,14 +19,14 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class CreateRoomTest {
 
+    @Autowired
     private CreateRoomService createRoomService;
 
+    @Autowired
     private RoomCacheService roomCacheService;
 
     @BeforeEach
     public void setUp() {
-        roomCacheService = new RoomCacheServiceImpl();
-        createRoomService = new CreateRoomServiceImpl(roomCacheService);
         RoomIdCache.setId(1);
     }
 
