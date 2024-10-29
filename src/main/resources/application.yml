@@ -1,2 +1,8 @@
 server:
-  port: 8088
+  port: ${SERVER_PORT}
+
+spring:
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
