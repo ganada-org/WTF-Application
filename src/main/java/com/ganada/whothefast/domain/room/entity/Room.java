@@ -3,13 +3,17 @@ package com.ganada.whothefast.domain.room.entity;
 import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.util.List;
 
 @Getter
 @Builder
+@RedisHash("rooms")
 public class Room {
 
+    @Id
     private int id;
 
     private String title;

@@ -4,8 +4,8 @@ import com.ganada.whothefast.domain.room.cache.RoomIdCache;
 import com.ganada.whothefast.domain.room.entity.Room;
 import com.ganada.whothefast.domain.room.entity.enums.RoomStatus;
 import com.ganada.whothefast.domain.room.presentation.dto.request.CreateRoomRequest;
+import com.ganada.whothefast.domain.room.repository.RoomRepository;
 import com.ganada.whothefast.domain.room.service.CreateRoomService;
-import com.ganada.whothefast.domain.room.service.RoomCacheService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ public class CreateRoomTest {
     private CreateRoomService createRoomService;
 
     @Autowired
-    private RoomCacheService roomCacheService;
+    private RoomRepository roomRepository;
 
     @BeforeEach
     public void setUp() {
@@ -94,7 +94,7 @@ public class CreateRoomTest {
         Room room = createRoomService.execute(request);
 
         // Then
-        Room cacheRoom = roomCacheService.findRoomById(room.getId());
+        Room cacheRoom = roomRepository.findById(room.getId()).orElse(null);
         assertNotNull(cacheRoom);
         assertEquals(room.getId(), cacheRoom.getId());
     }
